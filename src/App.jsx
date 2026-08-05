@@ -2,7 +2,10 @@ import Header from "./components/common/Header";
 import SummaryCard from "./components/common/SummaryCard";
 import StatusBadge from "./components/common/StatusBadge";
 import ProgressBar from "./components/common/ProgressBar";
+
 import EquityChart from "./components/dashboard/EquityChart";
+import TradeTable from "./components/dashboard/TradeTable";
+import PerformanceAnalytics from "./components/dashboard/PerformanceAnalytics";
 
 import account from "./data/account";
 import trades from "./data/trades";
@@ -17,13 +20,12 @@ import {
 } from "./utils/calculations";
 
 function App() {
-  
+ 
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
   );
 
-  
   const currentDrawdown = getCurrentDrawdown(
     account.startingBalance,
     currentBalance
@@ -47,7 +49,6 @@ function App() {
     dailyLoss
   );
 
-  
   const riskStatus = getRiskStatus(
     remainingDrawdown,
     remainingDailyLoss
@@ -56,7 +57,6 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
 
-      
       <Header />
 
       
@@ -84,7 +84,6 @@ function App() {
 
       </div>
 
-      
       <div className="bg-white rounded-xl shadow-md mt-8 p-6">
 
         <h2 className="text-2xl font-bold text-gray-800">
@@ -98,7 +97,6 @@ function App() {
         <div className="mt-8 space-y-8">
 
           
-
           <div>
 
             <div className="flex justify-between mb-2">
@@ -130,7 +128,6 @@ function App() {
           </div>
 
           
-
           <div>
 
             <div className="flex justify-between mb-2">
@@ -166,8 +163,13 @@ function App() {
       </div>
 
       
-
       <EquityChart />
+
+      
+      <TradeTable />
+
+     
+      <PerformanceAnalytics />
 
     </div>
   );
