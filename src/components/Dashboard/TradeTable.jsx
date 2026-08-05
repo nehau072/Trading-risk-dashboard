@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { TradeContext } from "../../context/TradeContext";
+import account from "../../data/account";
 
 
 function TradeTable() {
 
 
   const { trades } = useContext(TradeContext);
-
 
 
   const [search, setSearch] = useState("");
@@ -30,12 +30,10 @@ function TradeTable() {
           .includes(search.toLowerCase());
 
 
-
       const filterMatch =
         filter === "All" ||
         (filter === "Profit" && trade.pnl > 0) ||
         (filter === "Loss" && trade.pnl < 0);
-
 
 
       return searchMatch && filterMatch;
@@ -43,25 +41,17 @@ function TradeTable() {
 
     })
 
-
-
     .sort((a,b)=>{
 
 
       if(sort === "profit"){
-
         return b.pnl - a.pnl;
-
       }
-
 
 
       if(sort === "loss"){
-
         return a.pnl - b.pnl;
-
       }
-
 
 
       return 0;
@@ -69,6 +59,30 @@ function TradeTable() {
 
     });
 
+
+
+
+
+  let balance = account.startingBalance;
+
+
+
+  const tradesWithBalance = filteredTrades.map((trade)=>{
+
+
+    balance += trade.pnl;
+
+
+    return {
+
+      ...trade,
+
+      balance,
+
+    };
+
+
+  });
 
 
 
@@ -89,17 +103,11 @@ function TradeTable() {
 
 
       <h2 className="text-2xl font-bold text-white mb-6">
-
         Trade History
-
       </h2>
 
 
 
-
-
-
-      {/* Controls */}
 
 
       <div className="flex flex-wrap gap-4 mb-6">
@@ -131,7 +139,6 @@ function TradeTable() {
 
 
 
-
         <select
 
           value={filter}
@@ -154,11 +161,9 @@ function TradeTable() {
             All Trades
           </option>
 
-
           <option value="Profit">
             Profitable
           </option>
-
 
           <option value="Loss">
             Losing
@@ -166,7 +171,6 @@ function TradeTable() {
 
 
         </select>
-
 
 
 
@@ -191,7 +195,6 @@ function TradeTable() {
 
         >
 
-
           <option value="default">
             Sort
           </option>
@@ -210,17 +213,10 @@ function TradeTable() {
         </select>
 
 
-
       </div>
 
 
 
-
-
-
-
-
-      {/* Table */}
 
 
 
@@ -256,6 +252,11 @@ function TradeTable() {
               </th>
 
 
+              <th>
+                Running Balance
+              </th>
+
+
             </tr>
 
 
@@ -265,15 +266,11 @@ function TradeTable() {
 
 
 
-
-
           <tbody>
 
 
           {
-
-            filteredTrades.map((trade)=>(
-
+            tradesWithBalance.map((trade)=>(
 
 
               <tr
@@ -292,19 +289,14 @@ function TradeTable() {
 
 
                 <td className="py-4 text-gray-300">
-
                   {trade.date}
-
                 </td>
 
 
 
 
-
                 <td className="text-white font-semibold">
-
                   {trade.symbol}
-
                 </td>
 
 
@@ -312,7 +304,6 @@ function TradeTable() {
 
 
                 <td>
-
 
                   <span
 
@@ -343,8 +334,6 @@ function TradeTable() {
 
 
 
-
-
                 <td>
 
 
@@ -366,11 +355,8 @@ function TradeTable() {
 
                   >
 
-
                     {trade.pnl >= 0 ? "+" : ""}
-
                     ${trade.pnl}
-
 
                   </span>
 
@@ -379,14 +365,22 @@ function TradeTable() {
 
 
 
+
+
+                <td className="text-white font-semibold">
+
+                  ${trade.balance.toLocaleString()}
+
+                </td>
+
+
+
+
               </tr>
 
 
-
             ))
-
           }
-
 
 
           </tbody>
@@ -398,9 +392,7 @@ function TradeTable() {
       </div>
 
 
-
     </div>
-
 
   );
 
