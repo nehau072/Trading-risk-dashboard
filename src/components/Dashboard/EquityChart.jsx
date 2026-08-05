@@ -1,6 +1,8 @@
 import {
   LineChart,
   Line,
+  AreaChart,
+  Area,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -10,58 +12,130 @@ import {
 
 import equityData from "../../data/equityData";
 
-function EquityChart() {
-  return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mt-8">
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+function EquityChart() {
+
+  return (
+
+    <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg p-6 mt-8">
+
+
+      <h2 className="text-2xl font-bold text-white mb-6">
         Equity Curve
       </h2>
+
+
 
       <ResponsiveContainer
         width="100%"
         height={350}
       >
 
-        <LineChart data={equityData}>
+        <AreaChart data={equityData}>
+
+
+          <defs>
+
+            <linearGradient
+              id="equityGradient"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
+
+              <stop
+                offset="5%"
+                stopColor="#22c55e"
+                stopOpacity={0.4}
+              />
+
+              <stop
+                offset="95%"
+                stopColor="#22c55e"
+                stopOpacity={0}
+              />
+
+            </linearGradient>
+
+
+          </defs>
+
+
 
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="#e5e7eb"
+            stroke="#334155"
           />
+
+
 
           <XAxis
             dataKey="day"
-            tick={{ fill: "#4b5563" }}
+            tick={{
+              fill: "#94a3b8"
+            }}
           />
+
+
 
           <YAxis
-            tick={{ fill: "#4b5563" }}
+            tick={{
+              fill: "#94a3b8"
+            }}
           />
 
-          <Tooltip />
+
+
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#0f172a",
+              border: "1px solid #334155",
+              borderRadius: "10px",
+              color: "#ffffff"
+            }}
+          />
+
+
+
+          <Area
+            type="monotone"
+            dataKey="balance"
+            stroke="#22c55e"
+            strokeWidth={3}
+            fill="url(#equityGradient)"
+          />
+
+
 
           <Line
             type="monotone"
             dataKey="balance"
-            stroke="#2563eb"
-            strokeWidth={4}
+            stroke="#22c55e"
+            strokeWidth={3}
             dot={{
-              r: 5,
-              fill: "#2563eb",
+              r: 4,
+              fill: "#22c55e"
             }}
             activeDot={{
-              r: 8,
-              fill: "#1d4ed8",
+              r: 7,
+              fill: "#16a34a"
             }}
           />
 
-        </LineChart>
+
+        </AreaChart>
+
 
       </ResponsiveContainer>
 
+
+
     </div>
+
   );
+
 }
+
 
 export default EquityChart;
