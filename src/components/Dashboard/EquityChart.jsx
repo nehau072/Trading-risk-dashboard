@@ -1,8 +1,9 @@
+import { useContext } from "react";
+
 import {
-  LineChart,
-  Line,
   AreaChart,
   Area,
+  Line,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -10,51 +11,122 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import equityData from "../../data/equityData";
+import { TradeContext } from "../../context/TradeContext";
+
+import account from "../../data/account";
+
 
 
 function EquityChart() {
 
+
+  const { trades } = useContext(TradeContext);
+
+
+
+  let balance = account.startingBalance;
+
+
+
+  const equityData = trades.map((trade, index) => {
+
+    balance += trade.pnl;
+
+
+    return {
+
+      day: `Trade ${index + 1}`,
+
+      balance,
+
+    };
+
+  });
+
+
+
+
   return (
 
-    <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg p-6 mt-8">
+    <div className="
+      bg-slate-900
+      border
+      border-slate-700
+      rounded-2xl
+      shadow-lg
+      p-6
+      mt-8
+    ">
 
 
-      <h2 className="text-2xl font-bold text-white mb-6">
+
+      <h2 className="
+        text-2xl
+        font-bold
+        text-white
+        mb-6
+      ">
+
         Equity Curve
+
       </h2>
 
 
 
+
+
       <ResponsiveContainer
+
         width="100%"
+
         height={350}
+
       >
 
+
+
         <AreaChart data={equityData}>
+
 
 
           <defs>
 
             <linearGradient
+
               id="equityGradient"
+
               x1="0"
+
               y1="0"
+
               x2="0"
+
               y2="1"
+
             >
 
-              <stop
-                offset="5%"
-                stopColor="#22c55e"
-                stopOpacity={0.4}
-              />
 
               <stop
-                offset="95%"
+
+                offset="5%"
+
                 stopColor="#22c55e"
-                stopOpacity={0}
+
+                stopOpacity={0.4}
+
               />
+
+
+              <stop
+
+                offset="95%"
+
+                stopColor="#22c55e"
+
+                stopOpacity={0}
+
+              />
+
 
             </linearGradient>
 
@@ -63,71 +135,127 @@ function EquityChart() {
 
 
 
+
+
+
           <CartesianGrid
+
             strokeDasharray="3 3"
+
             stroke="#334155"
+
           />
+
+
+
 
 
 
           <XAxis
+
             dataKey="day"
+
             tick={{
-              fill: "#94a3b8"
+              fill:"#94a3b8"
             }}
+
           />
+
+
 
 
 
           <YAxis
+
             tick={{
-              fill: "#94a3b8"
+              fill:"#94a3b8"
             }}
+
           />
+
+
+
 
 
 
           <Tooltip
+
             contentStyle={{
-              backgroundColor: "#0f172a",
-              border: "1px solid #334155",
-              borderRadius: "10px",
-              color: "#ffffff"
+
+              backgroundColor:"#0f172a",
+
+              border:"1px solid #334155",
+
+              borderRadius:"10px",
+
+              color:"#ffffff"
+
             }}
+
           />
+
+
+
+
 
 
 
           <Area
+
             type="monotone"
+
             dataKey="balance"
+
             stroke="#22c55e"
+
             strokeWidth={3}
+
             fill="url(#equityGradient)"
+
           />
+
+
+
 
 
 
           <Line
+
             type="monotone"
+
             dataKey="balance"
+
             stroke="#22c55e"
+
             strokeWidth={3}
+
             dot={{
-              r: 4,
-              fill: "#22c55e"
+
+              r:4,
+
+              fill:"#22c55e"
+
             }}
+
             activeDot={{
-              r: 7,
-              fill: "#16a34a"
+
+              r:7,
+
+              fill:"#16a34a"
+
             }}
+
           />
+
+
+
 
 
         </AreaChart>
 
 
       </ResponsiveContainer>
+
 
 
 
