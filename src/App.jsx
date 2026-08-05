@@ -1,6 +1,7 @@
 import Header from "./components/common/Header";
 import SummaryCard from "./components/common/SummaryCard";
 import StatusBadge from "./components/common/StatusBadge";
+import ProgressBar from "./components/common/ProgressBar";
 
 import account from "./data/account";
 import trades from "./data/trades";
@@ -15,13 +16,13 @@ import {
 } from "./utils/calculations";
 
 function App() {
-  // Calculate current balance
+  // Current Balance
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
   );
 
-  // Calculate drawdown
+  // Drawdown
   const currentDrawdown = getCurrentDrawdown(
     account.startingBalance,
     currentBalance
@@ -32,17 +33,20 @@ function App() {
     currentDrawdown
   );
 
-  // Today's loss
+  // Today's Loss
   const today = "2026-08-03";
 
-  const dailyLoss = getDailyLoss(trades, today);
+  const dailyLoss = getDailyLoss(
+    trades,
+    today
+  );
 
   const remainingDailyLoss = getRemainingDailyLoss(
     account.dailyLossLimit,
     dailyLoss
   );
 
-  // Risk status
+  // Risk Status
   const riskStatus = getRiskStatus(
     remainingDrawdown,
     remainingDailyLoss
@@ -82,32 +86,78 @@ function App() {
       {/* Risk Status */}
       <div className="bg-white rounded-xl shadow-md mt-8 p-6">
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+        <h2 className="text-2xl font-bold text-gray-800">
           Risk Status
         </h2>
 
-        <StatusBadge status={riskStatus} />
+        <div className="mt-4">
+          <StatusBadge status={riskStatus} />
+        </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-8 space-y-8">
 
-          <div className="flex justify-between border-b pb-3">
-            <span className="text-gray-600">
-              Current Drawdown
-            </span>
+          {/* Drawdown */}
 
-            <span className="font-bold text-gray-900">
-              ${currentDrawdown.toLocaleString()}
-            </span>
+          <div>
+
+            <div className="flex justify-between mb-2">
+
+              <span className="font-semibold">
+                Current Drawdown
+              </span>
+
+              <span>
+                ${currentDrawdown.toLocaleString()}
+              </span>
+
+            </div>
+
+            <ProgressBar
+              value={currentDrawdown}
+              maxValue={account.maxDrawdown}
+              color="bg-red-500"
+            />
+
+            <p className="text-sm text-gray-500 mt-2">
+              Remaining Drawdown:
+              <strong>
+                {" "}
+                ${remainingDrawdown.toLocaleString()}
+              </strong>
+            </p>
+
           </div>
 
-          <div className="flex justify-between">
-            <span className="text-gray-600">
-              Remaining Daily Loss
-            </span>
+          {/* Daily Loss */}
 
-            <span className="font-bold text-gray-900">
-              ${remainingDailyLoss.toLocaleString()}
-            </span>
+          <div>
+
+            <div className="flex justify-between mb-2">
+
+              <span className="font-semibold">
+                Daily Loss
+              </span>
+
+              <span>
+                ${dailyLoss.toLocaleString()}
+              </span>
+
+            </div>
+
+            <ProgressBar
+              value={dailyLoss}
+              maxValue={account.dailyLossLimit}
+              color="bg-yellow-500"
+            />
+
+            <p className="text-sm text-gray-500 mt-2">
+              Remaining Daily Loss:
+              <strong>
+                {" "}
+                ${remainingDailyLoss.toLocaleString()}
+              </strong>
+            </p>
+
           </div>
 
         </div>
