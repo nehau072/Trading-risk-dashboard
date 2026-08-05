@@ -5,11 +5,11 @@ import SummaryCard from "./components/common/SummaryCard";
 import StatusBadge from "./components/common/StatusBadge";
 import ProgressBar from "./components/common/ProgressBar";
 
-import EquityChart from "./components/dashboard/EquityChart";
-import TradeTable from "./components/dashboard/TradeTable";
-import PerformanceAnalytics from "./components/dashboard/PerformanceAnalytics";
-import RiskAlert from "./components/dashboard/RiskAlert";
-import AddTrade from "./components/dashboard/AddTrade";
+import EquityChart from "./components/Dashboard/EquityChart";
+import TradeTable from "./components/Dashboard/TradeTable";
+import PerformanceAnalytics from "./components/Dashboard/PerformanceAnalytics";
+import RiskAlert from "./components/Dashboard/RiskAlert";
+import AddTrade from "./components/Dashboard/AddTrade";
 
 import account from "./data/account";
 
