@@ -5,24 +5,18 @@ import account from "../../data/account";
 
 function TradeTable() {
 
-
   const { trades } = useContext(TradeContext);
 
 
   const [search, setSearch] = useState("");
-
   const [filter, setFilter] = useState("All");
-
   const [sort, setSort] = useState("default");
 
 
 
+  const filteredTrades = [...trades]
 
-
-  const filteredTrades = trades
-
-    .filter((trade)=>{
-
+    .filter((trade) => {
 
       const searchMatch =
         trade.symbol
@@ -38,59 +32,53 @@ function TradeTable() {
 
       return searchMatch && filterMatch;
 
-
     })
 
-    .sort((a,b)=>{
 
+    .sort((a, b) => {
 
-      if(sort === "profit"){
+      if (sort === "profit") {
+
         return b.pnl - a.pnl;
+
       }
 
 
-      if(sort === "loss"){
+      if (sort === "loss") {
+
         return a.pnl - b.pnl;
+
       }
 
 
       return 0;
 
-
     });
-
-
 
 
 
   let balance = account.startingBalance;
 
 
-
-  const tradesWithBalance = filteredTrades.map((trade)=>{
-
+  const tradesWithBalance = filteredTrades.map((trade) => {
 
     balance += trade.pnl;
 
 
     return {
-
       ...trade,
-
       balance,
-
     };
-
 
   });
 
 
 
 
-
   return (
 
-    <div className="
+    <div
+      className="
       bg-slate-900
       border
       border-slate-700
@@ -98,8 +86,8 @@ function TradeTable() {
       shadow-lg
       p-6
       mt-8
-    ">
-
+      "
+    >
 
 
       <h2 className="text-2xl font-bold text-white mb-6">
@@ -108,7 +96,7 @@ function TradeTable() {
 
 
 
-
+      {/* Controls */}
 
       <div className="flex flex-wrap gap-4 mb-6">
 
@@ -121,7 +109,7 @@ function TradeTable() {
 
           value={search}
 
-          onChange={(e)=>setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
 
           className="
           bg-slate-800
@@ -143,7 +131,7 @@ function TradeTable() {
 
           value={filter}
 
-          onChange={(e)=>setFilter(e.target.value)}
+          onChange={(e) => setFilter(e.target.value)}
 
           className="
           bg-slate-800
@@ -161,9 +149,11 @@ function TradeTable() {
             All Trades
           </option>
 
+
           <option value="Profit">
             Profitable
           </option>
+
 
           <option value="Loss">
             Losing
@@ -176,12 +166,11 @@ function TradeTable() {
 
 
 
-
         <select
 
           value={sort}
 
-          onChange={(e)=>setSort(e.target.value)}
+          onChange={(e) => setSort(e.target.value)}
 
           className="
           bg-slate-800
@@ -218,6 +207,8 @@ function TradeTable() {
 
 
 
+
+      {/* Table */}
 
 
       <div className="overflow-x-auto">
@@ -270,116 +261,134 @@ function TradeTable() {
 
 
           {
-            tradesWithBalance.map((trade)=>(
+            tradesWithBalance.length > 0 ? (
+
+              tradesWithBalance.map((trade) => (
+
+                <tr
+
+                  key={trade.id}
+
+                  className="
+                  border-b
+                  border-slate-800
+                  hover:bg-slate-800
+                  transition
+                  "
+
+                >
 
 
-              <tr
-
-                key={trade.id}
-
-                className="
-                border-b
-                border-slate-800
-                hover:bg-slate-800
-                transition
-                "
-
-              >
+                  <td className="py-4 text-gray-300">
+                    {trade.date}
+                  </td>
 
 
 
-                <td className="py-4 text-gray-300">
-                  {trade.date}
+                  <td className="text-white font-semibold">
+                    {trade.symbol}
+                  </td>
+
+
+
+
+                  <td>
+
+
+                    <span
+
+                      className={
+                        trade.type === "Buy"
+
+                        ?
+
+                        "bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm"
+
+                        :
+
+                        "bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm"
+                      }
+
+                    >
+
+                      {trade.type}
+
+                    </span>
+
+
+                  </td>
+
+
+
+
+
+                  <td>
+
+
+                    <span
+
+                      className={
+
+                        trade.pnl >= 0
+
+                        ?
+
+                        "bg-green-500/20 text-green-400 px-3 py-1 rounded-full"
+
+                        :
+
+                        "bg-red-500/20 text-red-400 px-3 py-1 rounded-full"
+
+                      }
+
+                    >
+
+                      {trade.pnl >= 0 ? "+" : ""}
+                      ${trade.pnl}
+
+                    </span>
+
+
+                  </td>
+
+
+
+
+
+                  <td className="text-white font-semibold">
+
+                    ${trade.balance.toLocaleString()}
+
+                  </td>
+
+
+
+                </tr>
+
+
+              ))
+
+            ) : (
+
+              <tr>
+
+                <td
+                  colSpan="5"
+                  className="
+                  text-center
+                  text-gray-400
+                  py-8
+                  "
+                >
+
+                  No trades found
+
                 </td>
-
-
-
-
-                <td className="text-white font-semibold">
-                  {trade.symbol}
-                </td>
-
-
-
-
-
-                <td>
-
-                  <span
-
-                    className={
-
-                      trade.type === "Buy"
-
-                      ?
-
-                      "bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm"
-
-                      :
-
-                      "bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm"
-
-                    }
-
-                  >
-
-                    {trade.type}
-
-                  </span>
-
-
-                </td>
-
-
-
-
-
-                <td>
-
-
-                  <span
-
-                    className={
-
-                      trade.pnl >= 0
-
-                      ?
-
-                      "bg-green-500/20 text-green-400 px-3 py-1 rounded-full"
-
-                      :
-
-                      "bg-red-500/20 text-red-400 px-3 py-1 rounded-full"
-
-                    }
-
-                  >
-
-                    {trade.pnl >= 0 ? "+" : ""}
-                    ${trade.pnl}
-
-                  </span>
-
-
-                </td>
-
-
-
-
-
-                <td className="text-white font-semibold">
-
-                  ${trade.balance.toLocaleString()}
-
-                </td>
-
-
-
 
               </tr>
 
+            )
 
-            ))
           }
 
 
