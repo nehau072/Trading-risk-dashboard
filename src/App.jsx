@@ -23,6 +23,7 @@ import {
 
 function App() {
 
+
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
@@ -62,9 +63,18 @@ function App() {
   );
 
 
+
   return (
 
-    <div className="min-h-screen bg-slate-950 p-8">
+    <div
+      className="
+      min-h-screen
+      bg-slate-950
+      p-4
+      md:p-8
+      animate-fadeIn
+      "
+    >
 
 
       <Header />
@@ -73,7 +83,16 @@ function App() {
 
       {/* Summary Cards */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
+      <div
+        className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        xl:grid-cols-4
+        gap-8
+        mt-8
+        "
+      >
 
 
         <SummaryCard
@@ -105,13 +124,28 @@ function App() {
 
 
 
+
       {/* Risk Status */}
 
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg mt-8 p-8">
+      <div
+        className="
+        bg-slate-900
+        border
+        border-slate-700
+        rounded-2xl
+        shadow-lg
+        mt-8
+        p-6
+        md:p-8
+        animate-fadeIn
+        "
+      >
 
 
         <h2 className="text-2xl font-bold text-white">
+
           Risk Status
+
         </h2>
 
 
@@ -125,8 +159,8 @@ function App() {
 
 
 
-        <div className="mt-8 space-y-8">
 
+        <div className="mt-8 space-y-8">
 
 
           {/* Current Drawdown */}
@@ -138,12 +172,16 @@ function App() {
 
 
               <span className="font-semibold text-gray-200">
+
                 Current Drawdown
+
               </span>
 
 
               <span className="text-gray-300">
+
                 ${currentDrawdown.toLocaleString()}
+
               </span>
 
 
@@ -161,7 +199,7 @@ function App() {
 
             <p className="mt-2 text-sm text-gray-400">
 
-              Remaining Drawdown :
+              Remaining Drawdown:
 
               <strong className="text-white">
 
@@ -182,7 +220,6 @@ function App() {
 
           {/* Daily Loss */}
 
-
           <div>
 
 
@@ -190,12 +227,16 @@ function App() {
 
 
               <span className="font-semibold text-gray-200">
+
                 Daily Loss
+
               </span>
 
 
               <span className="text-gray-300">
+
                 ${dailyLoss.toLocaleString()}
+
               </span>
 
 
@@ -213,7 +254,7 @@ function App() {
 
             <p className="mt-2 text-sm text-gray-400">
 
-              Remaining Daily Loss :
+              Remaining Daily Loss:
 
               <strong className="text-white">
 
@@ -241,31 +282,47 @@ function App() {
 
       {/* Risk Alert */}
 
-      <RiskAlert />
+      <div className="animate-fadeIn">
+
+        <RiskAlert />
+
+      </div>
 
 
 
 
 
-      {/* Analytics */}
+      {/* Performance Analytics */}
 
-      <PerformanceAnalytics />
+      <div className="animate-fadeIn">
 
+        <PerformanceAnalytics />
 
-
-
-
-      {/* Equity Curve */}
-
-      <EquityChart />
+      </div>
 
 
 
 
 
-      {/* Trade History */}
+      {/* Equity Chart */}
 
-      <TradeTable />
+      <div className="animate-fadeIn">
+
+        <EquityChart />
+
+      </div>
+
+
+
+
+
+      {/* Trade Table */}
+
+      <div className="animate-fadeIn">
+
+        <TradeTable />
+
+      </div>
 
 
 

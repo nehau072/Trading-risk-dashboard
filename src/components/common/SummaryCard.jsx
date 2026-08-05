@@ -30,16 +30,17 @@ function SummaryCard({ title, value }) {
 
     <div
       className="
-      bg-slate-900 
-      border 
-      border-slate-700 
-      rounded-2xl 
-      p-6 
+      bg-slate-900
+      border
+      border-slate-700
+      rounded-2xl
+      p-6
       shadow-lg
-      hover:-translate-y-2
-      hover:shadow-xl
       transition-all
       duration-300
+      hover:scale-[1.03]
+      hover:-translate-y-1
+      hover:shadow-2xl
       "
     >
 
@@ -50,13 +51,27 @@ function SummaryCard({ title, value }) {
         <div>
 
 
-          <p className="text-gray-400 text-sm">
+          <p className="
+            text-gray-400
+            text-sm
+            font-medium
+          ">
             {title}
           </p>
 
 
-          <h2 className="text-3xl font-bold text-white mt-3">
+
+          <h2
+            className="
+            text-3xl
+            font-bold
+            text-white
+            mt-3
+            "
+          >
+
             {value}
+
           </h2>
 
 
@@ -67,7 +82,13 @@ function SummaryCard({ title, value }) {
         {
           Icon && (
 
-            <div className="bg-slate-800 p-3 rounded-xl">
+            <div
+              className="
+              bg-slate-800
+              p-3
+              rounded-xl
+              "
+            >
 
               <Icon
                 size={28}
@@ -82,6 +103,7 @@ function SummaryCard({ title, value }) {
 
 
       </div>
+
 
 
     </div>
