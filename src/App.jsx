@@ -2,6 +2,7 @@ import Header from "./components/common/Header";
 import SummaryCard from "./components/common/SummaryCard";
 import StatusBadge from "./components/common/StatusBadge";
 import ProgressBar from "./components/common/ProgressBar";
+import EquityChart from "./components/dashboard/EquityChart";
 
 import account from "./data/account";
 import trades from "./data/trades";
@@ -16,13 +17,13 @@ import {
 } from "./utils/calculations";
 
 function App() {
-  // Current Balance
+  
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
   );
 
-  // Drawdown
+  
   const currentDrawdown = getCurrentDrawdown(
     account.startingBalance,
     currentBalance
@@ -33,7 +34,7 @@ function App() {
     currentDrawdown
   );
 
-  // Today's Loss
+  
   const today = "2026-08-03";
 
   const dailyLoss = getDailyLoss(
@@ -46,7 +47,7 @@ function App() {
     dailyLoss
   );
 
-  // Risk Status
+  
   const riskStatus = getRiskStatus(
     remainingDrawdown,
     remainingDailyLoss
@@ -55,10 +56,10 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
 
-      {/* Header */}
+      
       <Header />
 
-      {/* Summary Cards */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
 
         <SummaryCard
@@ -83,7 +84,7 @@ function App() {
 
       </div>
 
-      {/* Risk Status */}
+      
       <div className="bg-white rounded-xl shadow-md mt-8 p-6">
 
         <h2 className="text-2xl font-bold text-gray-800">
@@ -96,7 +97,7 @@ function App() {
 
         <div className="mt-8 space-y-8">
 
-          {/* Drawdown */}
+          
 
           <div>
 
@@ -128,7 +129,7 @@ function App() {
 
           </div>
 
-          {/* Daily Loss */}
+          
 
           <div>
 
@@ -163,6 +164,10 @@ function App() {
         </div>
 
       </div>
+
+      
+
+      <EquityChart />
 
     </div>
   );
