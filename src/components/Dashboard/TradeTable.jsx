@@ -1,39 +1,45 @@
 import { useState } from "react";
 import trades from "../../data/trades";
 
-const TradeTable = () => {
+
+function TradeTable() {
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [sort, setSort] = useState("default");
 
 
+
   const filteredTrades = trades
-    .filter((trade) => {
+    .filter((trade)=>{
 
-      const matchesSearch = trade.symbol
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      const searchMatch =
+        trade.symbol
+          .toLowerCase()
+          .includes(search.toLowerCase());
 
 
-      const matchesFilter =
+      const filterMatch =
         filter === "All" ||
         (filter === "Profit" && trade.pnl > 0) ||
         (filter === "Loss" && trade.pnl < 0);
 
 
-      return matchesSearch && matchesFilter;
+      return searchMatch && filterMatch;
 
     })
-    .sort((a, b) => {
 
-      if (sort === "profit") {
+    .sort((a,b)=>{
+
+      if(sort === "profit"){
         return b.pnl - a.pnl;
       }
 
-      if (sort === "loss") {
+
+      if(sort === "loss"){
         return a.pnl - b.pnl;
       }
+
 
       return 0;
 
@@ -41,13 +47,17 @@ const TradeTable = () => {
 
 
 
+
   return (
 
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg p-6 mt-8">
 
-      <h2 className="text-xl font-semibold mb-5">
+
+      <h2 className="text-2xl font-bold text-white mb-6">
         Trade History
       </h2>
+
+
 
 
       {/* Controls */}
@@ -55,35 +65,62 @@ const TradeTable = () => {
       <div className="flex flex-wrap gap-4 mb-6">
 
 
-        {/* Search */}
-
         <input
+
           type="text"
+
           placeholder="Search symbol..."
+
           value={search}
+
           onChange={(e)=>setSearch(e.target.value)}
-          className="border rounded-lg px-3 py-2"
+
+          className="
+          bg-slate-800
+          border
+          border-slate-700
+          text-white
+          rounded-lg
+          px-4
+          py-2
+          outline-none
+          "
+
         />
 
 
-        {/* Filter */}
+
 
         <select
+
           value={filter}
+
           onChange={(e)=>setFilter(e.target.value)}
-          className="border rounded-lg px-3 py-2"
+
+          className="
+          bg-slate-800
+          border
+          border-slate-700
+          text-white
+          rounded-lg
+          px-4
+          py-2
+          "
+
         >
 
           <option value="All">
             All Trades
           </option>
 
+
           <option value="Profit">
-            Profitable Trades
+            Profitable
           </option>
 
+
           <option value="Loss">
-            Losing Trades
+            Losing
           </option>
 
 
@@ -91,21 +128,34 @@ const TradeTable = () => {
 
 
 
-        {/* Sort */}
 
         <select
+
           value={sort}
+
           onChange={(e)=>setSort(e.target.value)}
-          className="border rounded-lg px-3 py-2"
+
+          className="
+          bg-slate-800
+          border
+          border-slate-700
+          text-white
+          rounded-lg
+          px-4
+          py-2
+          "
+
         >
 
           <option value="default">
-            Sort Trades
+            Sort
           </option>
+
 
           <option value="profit">
             Highest Profit
           </option>
+
 
           <option value="loss">
             Biggest Loss
@@ -115,84 +165,154 @@ const TradeTable = () => {
         </select>
 
 
+
       </div>
+
+
+
 
 
 
       {/* Table */}
 
+
       <div className="overflow-x-auto">
+
 
         <table className="w-full text-left">
 
+
           <thead>
 
-            <tr className="border-b">
 
-              <th className="py-3">
+            <tr className="border-b border-slate-700 text-gray-400">
+
+
+              <th className="py-4">
                 Date
               </th>
+
 
               <th>
                 Symbol
               </th>
 
+
               <th>
                 Type
               </th>
+
 
               <th>
                 PnL
               </th>
 
+
             </tr>
 
+
           </thead>
+
+
 
 
 
           <tbody>
 
 
-            {filteredTrades.map((trade)=>(
+          {
+            filteredTrades.map((trade)=>(
 
-              <tr 
+
+              <tr
+
                 key={trade.id}
-                className="border-b hover:bg-gray-50"
+
+                className="
+                border-b
+                border-slate-800
+                hover:bg-slate-800
+                transition
+                "
+
               >
 
-                <td className="py-3">
+
+                <td className="py-4 text-gray-300">
+
                   {trade.date}
+
                 </td>
 
 
-                <td>
+
+
+                <td className="text-white font-semibold">
+
                   {trade.symbol}
+
                 </td>
+
+
+
 
 
                 <td>
-                  {trade.type}
+
+
+                  <span
+
+                    className={
+                      trade.type === "Buy"
+                      ?
+                      "bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm"
+                      :
+                      "bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm"
+                    }
+
+                  >
+
+                    {trade.type}
+
+                  </span>
+
+
                 </td>
 
 
-                <td
-                  className={
-                    trade.pnl >= 0
-                    ? "text-green-600 font-semibold"
-                    : "text-red-600 font-semibold"
-                  }
-                >
 
-                  {trade.pnl >= 0 ? "+" : ""}
-                  ${trade.pnl}
+
+
+                <td>
+
+
+                  <span
+
+                    className={
+                      trade.pnl >= 0
+                      ?
+                      "bg-green-500/20 text-green-400 px-3 py-1 rounded-full"
+                      :
+                      "bg-red-500/20 text-red-400 px-3 py-1 rounded-full"
+                    }
+
+                  >
+
+                    {trade.pnl >= 0 ? "+" : ""}
+                    ${trade.pnl}
+
+                  </span>
+
 
                 </td>
+
 
 
               </tr>
 
-            ))}
+
+            ))
+          }
 
 
 
@@ -205,22 +325,13 @@ const TradeTable = () => {
       </div>
 
 
-      {
-        filteredTrades.length === 0 && (
-
-          <p className="text-gray-500 text-center mt-5">
-            No trades found
-          </p>
-
-        )
-      }
-
 
     </div>
 
+
   );
 
-};
+}
 
 
 export default TradeTable;
