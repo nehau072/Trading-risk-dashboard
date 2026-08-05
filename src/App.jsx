@@ -1,62 +1,80 @@
 import account from "./data/account";
 import trades from "./data/trades";
 
+import {
+  getCurrentBalance,
+  getCurrentDrawdown,
+  getRemainingDrawdown,
+  getDailyLoss,
+  getRemainingDailyLoss,
+  getRiskStatus,
+  getWinRate,
+  getWinningTrades,
+  getLosingTrades,
+} from "./utils/calculations";
+
 function App() {
+  const currentBalance = getCurrentBalance(
+    account.startingBalance,
+    trades
+  );
+
+  const currentDrawdown = getCurrentDrawdown(
+    account.startingBalance,
+    currentBalance
+  );
+
+  const remainingDrawdown = getRemainingDrawdown(
+    account.maxDrawdown,
+    currentDrawdown
+  );
+
+  const today = "2026-08-03";
+
+  const dailyLoss = getDailyLoss(trades, today);
+
+  const remainingDailyLoss = getRemainingDailyLoss(
+    account.dailyLossLimit,
+    dailyLoss
+  );
+
+  const riskStatus = getRiskStatus(
+    remainingDrawdown,
+    remainingDailyLoss
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-6 text-blue-600">
+      <h1 className="text-4xl font-bold mb-8">
         Trading Risk Dashboard
       </h1>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-semibold mb-4">
-          Account Information
-        </h2>
+      <div className="bg-white p-6 rounded-xl shadow space-y-3">
+        <p>Current Balance: ${currentBalance.toLocaleString()}</p>
+
+        <p>Current Drawdown: ${currentDrawdown.toLocaleString()}</p>
 
         <p>
-          <strong>Trader:</strong> {account.traderName}
+          Remaining Drawdown: $
+          {remainingDrawdown.toLocaleString()}
         </p>
+
+        <p>Today's Loss: ${dailyLoss.toLocaleString()}</p>
 
         <p>
-          <strong>Account:</strong> {account.accountName}
+          Remaining Daily Loss: $
+          {remainingDailyLoss.toLocaleString()}
         </p>
 
-        <p>
-          <strong>Starting Balance:</strong> $
-          {account.startingBalance.toLocaleString()}
-        </p>
+        <p>Risk Status: {riskStatus}</p>
 
-        <p>
-          <strong>Current Balance:</strong> $
-          {account.currentBalance.toLocaleString()}
-        </p>
-      </div>
+        <hr />
 
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-4">
-          Trade History
-        </h2>
+        <p>Win Rate: {getWinRate(trades)}%</p>
 
-        {trades.map((trade) => (
-          <div
-            key={trade.id}
-            className="border-b py-3 flex justify-between"
-          >
-            <span>{trade.date}</span>
-            <span>{trade.symbol}</span>
-            <span>{trade.type}</span>
+        <p>Winning Trades: {getWinningTrades(trades)}</p>
 
-            <span
-              className={
-                trade.pnl >= 0
-                  ? "text-green-600 font-semibold"
-                  : "text-red-600 font-semibold"
-              }
-            >
-              ${trade.pnl}
-            </span>
-          </div>
-        ))}
+        <p>Losing Trades: {getLosingTrades(trades)}</p>
       </div>
     </div>
   );
