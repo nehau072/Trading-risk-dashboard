@@ -1,3 +1,4 @@
+
 const trades = [
   {
     id: 1,
