@@ -1,3 +1,7 @@
+import Header from "./components/common/Header";
+import SummaryCard from "./components/common/SummaryCard";
+import StatusBadge from "./components/common/StatusBadge";
+
 import account from "./data/account";
 import trades from "./data/trades";
 
@@ -8,17 +12,16 @@ import {
   getDailyLoss,
   getRemainingDailyLoss,
   getRiskStatus,
-  getWinRate,
-  getWinningTrades,
-  getLosingTrades,
 } from "./utils/calculations";
 
 function App() {
+  // Calculate current balance
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
   );
 
+  // Calculate drawdown
   const currentDrawdown = getCurrentDrawdown(
     account.startingBalance,
     currentBalance
@@ -29,6 +32,7 @@ function App() {
     currentDrawdown
   );
 
+  // Today's loss
   const today = "2026-08-03";
 
   const dailyLoss = getDailyLoss(trades, today);
@@ -38,6 +42,7 @@ function App() {
     dailyLoss
   );
 
+  // Risk status
   const riskStatus = getRiskStatus(
     remainingDrawdown,
     remainingDailyLoss
@@ -45,37 +50,70 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8">
-        Trading Risk Dashboard
-      </h1>
 
-      <div className="bg-white p-6 rounded-xl shadow space-y-3">
-        <p>Current Balance: ${currentBalance.toLocaleString()}</p>
+      {/* Header */}
+      <Header />
 
-        <p>Current Drawdown: ${currentDrawdown.toLocaleString()}</p>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
 
-        <p>
-          Remaining Drawdown: $
-          {remainingDrawdown.toLocaleString()}
-        </p>
+        <SummaryCard
+          title="Starting Balance"
+          value={`$${account.startingBalance.toLocaleString()}`}
+        />
 
-        <p>Today's Loss: ${dailyLoss.toLocaleString()}</p>
+        <SummaryCard
+          title="Current Balance"
+          value={`$${currentBalance.toLocaleString()}`}
+        />
 
-        <p>
-          Remaining Daily Loss: $
-          {remainingDailyLoss.toLocaleString()}
-        </p>
+        <SummaryCard
+          title="Remaining Drawdown"
+          value={`$${remainingDrawdown.toLocaleString()}`}
+        />
 
-        <p>Risk Status: {riskStatus}</p>
+        <SummaryCard
+          title="Today's Loss"
+          value={`$${dailyLoss.toLocaleString()}`}
+        />
 
-        <hr />
-
-        <p>Win Rate: {getWinRate(trades)}%</p>
-
-        <p>Winning Trades: {getWinningTrades(trades)}</p>
-
-        <p>Losing Trades: {getLosingTrades(trades)}</p>
       </div>
+
+      {/* Risk Status */}
+      <div className="bg-white rounded-xl shadow-md mt-8 p-6">
+
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Risk Status
+        </h2>
+
+        <StatusBadge status={riskStatus} />
+
+        <div className="mt-6 space-y-4">
+
+          <div className="flex justify-between border-b pb-3">
+            <span className="text-gray-600">
+              Current Drawdown
+            </span>
+
+            <span className="font-bold text-gray-900">
+              ${currentDrawdown.toLocaleString()}
+            </span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="text-gray-600">
+              Remaining Daily Loss
+            </span>
+
+            <span className="font-bold text-gray-900">
+              ${remainingDailyLoss.toLocaleString()}
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }
