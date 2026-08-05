@@ -62,10 +62,9 @@ function App() {
   );
 
 
-
   return (
 
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 p-8">
+    <div className="min-h-screen bg-slate-950 p-8">
 
 
       <Header />
@@ -106,12 +105,12 @@ function App() {
 
 
 
-      {/* Risk Status Section */}
+      {/* Risk Status */}
 
-      <div className="bg-white rounded-2xl shadow-lg mt-8 p-8">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg mt-8 p-8">
 
 
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold text-white">
           Risk Status
         </h2>
 
@@ -129,7 +128,8 @@ function App() {
         <div className="mt-8 space-y-8">
 
 
-          {/* Drawdown */}
+
+          {/* Current Drawdown */}
 
           <div>
 
@@ -137,12 +137,12 @@ function App() {
             <div className="flex justify-between mb-2">
 
 
-              <span className="font-semibold">
+              <span className="font-semibold text-gray-200">
                 Current Drawdown
               </span>
 
 
-              <span>
+              <span className="text-gray-300">
                 ${currentDrawdown.toLocaleString()}
               </span>
 
@@ -159,21 +159,23 @@ function App() {
 
 
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-400">
 
               Remaining Drawdown :
 
-              <strong>
+              <strong className="text-white">
 
                 {" "}
                 ${remainingDrawdown.toLocaleString()}
 
               </strong>
 
+
             </p>
 
 
           </div>
+
 
 
 
@@ -187,12 +189,12 @@ function App() {
             <div className="flex justify-between mb-2">
 
 
-              <span className="font-semibold">
+              <span className="font-semibold text-gray-200">
                 Daily Loss
               </span>
 
 
-              <span>
+              <span className="text-gray-300">
                 ${dailyLoss.toLocaleString()}
               </span>
 
@@ -209,11 +211,11 @@ function App() {
 
 
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-400">
 
               Remaining Daily Loss :
 
-              <strong>
+              <strong className="text-white">
 
                 {" "}
                 ${remainingDailyLoss.toLocaleString()}
@@ -236,6 +238,7 @@ function App() {
 
 
 
+
       {/* Risk Alert */}
 
       <RiskAlert />
@@ -243,9 +246,11 @@ function App() {
 
 
 
-      {/* Performance Analytics */}
+
+      {/* Analytics */}
 
       <PerformanceAnalytics />
+
 
 
 
@@ -253,6 +258,7 @@ function App() {
       {/* Equity Curve */}
 
       <EquityChart />
+
 
 
 
