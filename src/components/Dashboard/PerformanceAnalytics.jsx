@@ -1,8 +1,16 @@
-import trades from "../../data/trades";
+import { useContext } from "react";
+import { TradeContext } from "../../context/TradeContext";
+
 
 function PerformanceAnalytics() {
 
+
+  const { trades } = useContext(TradeContext);
+
+
+
   const totalTrades = trades.length;
+
 
 
   const winningTrades = trades.filter(
@@ -10,13 +18,17 @@ function PerformanceAnalytics() {
   );
 
 
+
   const losingTrades = trades.filter(
     (trade) => trade.pnl < 0
   );
 
 
+
   const totalWins = winningTrades.length;
+
   const totalLosses = losingTrades.length;
+
 
 
 
@@ -27,10 +39,12 @@ function PerformanceAnalytics() {
 
 
 
+
   const netProfit = trades.reduce(
     (sum, trade) => sum + trade.pnl,
     0
   );
+
 
 
 
@@ -46,6 +60,7 @@ function PerformanceAnalytics() {
 
 
 
+
   const avgLoss =
     totalLosses > 0
       ? (
@@ -58,10 +73,13 @@ function PerformanceAnalytics() {
 
 
 
+
+
   const grossProfit = winningTrades.reduce(
     (sum, trade) => sum + trade.pnl,
     0
   );
+
 
 
   const grossLoss = Math.abs(
@@ -73,6 +91,8 @@ function PerformanceAnalytics() {
 
 
 
+
+
   const profitFactor =
     grossLoss > 0
       ? (grossProfit / grossLoss).toFixed(2)
@@ -80,123 +100,204 @@ function PerformanceAnalytics() {
 
 
 
-  const bestTrade = Math.max(
-    ...trades.map((trade) => trade.pnl)
-  );
 
 
-  const worstTrade = Math.min(
-    ...trades.map((trade) => trade.pnl)
-  );
+  const bestTrade =
+    trades.length > 0
+      ? Math.max(...trades.map((trade)=>trade.pnl))
+      : 0;
+
+
+
+  const worstTrade =
+    trades.length > 0
+      ? Math.min(...trades.map((trade)=>trade.pnl))
+      : 0;
+
+
+
+
 
 
 
   const analytics = [
 
-    {
-      title: "Total Trades",
-      value: totalTrades,
-    },
 
     {
-      title: "Winning Trades",
-      value: totalWins,
+      title:"Total Trades",
+      value:totalTrades,
     },
 
-    {
-      title: "Losing Trades",
-      value: totalLosses,
-    },
 
     {
-      title: "Win Rate",
-      value: `${winRate}%`,
+      title:"Winning Trades",
+      value:totalWins,
     },
 
+
     {
-      title: "Net Profit",
-      value: `$${netProfit.toLocaleString()}`,
+      title:"Losing Trades",
+      value:totalLosses,
+    },
+
+
+    {
+      title:"Win Rate",
+      value:`${winRate}%`,
+    },
+
+
+    {
+      title:"Net Profit",
+      value:`$${netProfit.toLocaleString()}`,
       color:
         netProfit >= 0
-          ? "text-green-600"
-          : "text-red-600",
+        ? "text-green-600"
+        : "text-red-600",
     },
 
-    {
-      title: "Average Win",
-      value: `$${avgWin}`,
-      color: "text-green-600",
-    },
 
     {
-      title: "Average Loss",
-      value: `$${avgLoss}`,
-      color: "text-red-600",
+      title:"Average Win",
+      value:`$${avgWin}`,
+      color:"text-green-600",
     },
 
-    {
-      title: "Profit Factor",
-      value: profitFactor,
-    },
 
     {
-      title: "Best Trade",
-      value: `$${bestTrade}`,
-      color: "text-green-600",
+      title:"Average Loss",
+      value:`$${avgLoss}`,
+      color:"text-red-600",
     },
 
+
     {
-      title: "Worst Trade",
-      value: `$${worstTrade}`,
-      color: "text-red-600",
+      title:"Profit Factor",
+      value:profitFactor,
     },
+
+
+    {
+      title:"Best Trade",
+      value:`$${bestTrade}`,
+      color:"text-green-600",
+    },
+
+
+    {
+      title:"Worst Trade",
+      value:`$${worstTrade}`,
+      color:"text-red-600",
+    },
+
 
   ];
 
 
 
+
+
+
   return (
 
-    <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+    <div className="
+      bg-slate-900
+      border
+      border-slate-700
+      rounded-2xl
+      shadow-lg
+      p-6
+      mt-8
+      animate-fadeIn
+    ">
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+
+
+      <h2 className="
+        text-2xl
+        font-bold
+        text-white
+        mb-6
+      ">
+
         Performance Analytics
+
       </h2>
 
 
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
 
 
-        {analytics.map((item) => (
 
-          <div
-            key={item.title}
-            className="border rounded-lg p-4 bg-gray-50"
-          >
+      <div className="
+        grid
+        grid-cols-1
+        sm:grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-5
+        gap-6
+      ">
 
-            <p className="text-sm text-gray-500">
-              {item.title}
-            </p>
 
 
-            <h3
-              className={`text-2xl font-bold mt-2 ${
-                item.color || "text-gray-900"
-              }`}
+        {
+          analytics.map((item)=>(
+
+
+            <div
+
+              key={item.title}
+
+              className="
+              border
+              border-slate-700
+              rounded-lg
+              p-4
+              bg-slate-800
+              "
+
             >
 
-              {item.value}
 
-            </h3>
+              <p className="
+                text-sm
+                text-gray-400
+              ">
+
+                {item.title}
+
+              </p>
 
 
-          </div>
 
-        ))}
+              <h3
+                className={`
+                  text-2xl
+                  font-bold
+                  mt-2
+                  ${
+                    item.color ||
+                    "text-white"
+                  }
+                `}
+              >
+
+                {item.value}
+
+              </h3>
+
+
+
+            </div>
+
+
+          ))
+        }
+
 
 
       </div>
+
 
 
     </div>

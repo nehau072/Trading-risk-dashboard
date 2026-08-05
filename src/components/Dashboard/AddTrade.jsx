@@ -20,6 +20,10 @@ function AddTrade() {
 
 
 
+  const [message, setMessage] = useState("");
+
+
+
   const handleChange = (e) => {
 
     setFormData({
@@ -35,16 +39,21 @@ function AddTrade() {
 
 
 
+
   const handleSubmit = (e) => {
 
     e.preventDefault();
 
 
 
+    console.log("Adding Trade:", formData);
+
+
+
     if(
       !formData.date ||
       !formData.symbol ||
-      !formData.pnl
+      formData.pnl === ""
     ){
 
       alert("Please fill all fields");
@@ -52,6 +61,8 @@ function AddTrade() {
       return;
 
     }
+
+
 
 
 
@@ -65,6 +76,12 @@ function AddTrade() {
 
 
 
+
+
+    setMessage("Trade added successfully ✅");
+
+
+
     setFormData({
 
       date: "",
@@ -75,7 +92,20 @@ function AddTrade() {
     });
 
 
+
+
+
+    setTimeout(()=>{
+
+      setMessage("");
+
+    },3000);
+
+
+
   };
+
+
 
 
 
@@ -95,6 +125,7 @@ function AddTrade() {
     >
 
 
+
       <h2 className="text-2xl font-bold text-white mb-6">
 
         Add New Trade
@@ -104,15 +135,40 @@ function AddTrade() {
 
 
 
+      {
+        message && (
+
+          <p className="
+          mb-4
+          text-green-400
+          font-semibold
+          ">
+
+            {message}
+
+          </p>
+
+        )
+      }
+
+
+
+
+
       <form
+
         onSubmit={handleSubmit}
+
         className="
         grid
         grid-cols-1
         md:grid-cols-4
         gap-4
         "
+
       >
+
+
 
 
 
@@ -137,6 +193,7 @@ function AddTrade() {
           "
 
         />
+
 
 
 
@@ -170,6 +227,8 @@ function AddTrade() {
 
 
 
+
+
         <select
 
           name="type"
@@ -190,6 +249,7 @@ function AddTrade() {
 
         >
 
+
           <option value="Buy">
             Buy
           </option>
@@ -201,6 +261,7 @@ function AddTrade() {
 
 
         </select>
+
 
 
 
@@ -236,6 +297,7 @@ function AddTrade() {
 
 
 
+
         <button
 
           type="submit"
@@ -256,6 +318,7 @@ function AddTrade() {
           + Add Trade
 
         </button>
+
 
 
 

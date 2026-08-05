@@ -1,22 +1,34 @@
-import { useState } from "react";
-import trades from "../../data/trades";
+import { useState, useContext } from "react";
+import { TradeContext } from "../../context/TradeContext";
 
 
 function TradeTable() {
 
+
+  const { trades } = useContext(TradeContext);
+
+
+
   const [search, setSearch] = useState("");
+
   const [filter, setFilter] = useState("All");
+
   const [sort, setSort] = useState("default");
 
 
 
+
+
   const filteredTrades = trades
+
     .filter((trade)=>{
+
 
       const searchMatch =
         trade.symbol
           .toLowerCase()
           .includes(search.toLowerCase());
+
 
 
       const filterMatch =
@@ -25,42 +37,70 @@ function TradeTable() {
         (filter === "Loss" && trade.pnl < 0);
 
 
+
       return searchMatch && filterMatch;
+
 
     })
 
+
+
     .sort((a,b)=>{
 
+
       if(sort === "profit"){
+
         return b.pnl - a.pnl;
+
       }
+
 
 
       if(sort === "loss"){
+
         return a.pnl - b.pnl;
+
       }
 
 
+
       return 0;
+
 
     });
 
 
 
 
+
+
   return (
 
-    <div className="bg-slate-900 border border-slate-700 rounded-2xl shadow-lg p-6 mt-8">
+    <div className="
+      bg-slate-900
+      border
+      border-slate-700
+      rounded-2xl
+      shadow-lg
+      p-6
+      mt-8
+    ">
+
 
 
       <h2 className="text-2xl font-bold text-white mb-6">
+
         Trade History
+
       </h2>
 
 
 
 
+
+
       {/* Controls */}
+
 
       <div className="flex flex-wrap gap-4 mb-6">
 
@@ -87,6 +127,7 @@ function TradeTable() {
           "
 
         />
+
 
 
 
@@ -129,6 +170,9 @@ function TradeTable() {
 
 
 
+
+
+
         <select
 
           value={sort}
@@ -146,6 +190,7 @@ function TradeTable() {
           "
 
         >
+
 
           <option value="default">
             Sort
@@ -173,7 +218,10 @@ function TradeTable() {
 
 
 
+
+
       {/* Table */}
+
 
 
       <div className="overflow-x-auto">
@@ -217,11 +265,15 @@ function TradeTable() {
 
 
 
+
+
           <tbody>
 
 
           {
+
             filteredTrades.map((trade)=>(
+
 
 
               <tr
@@ -238,11 +290,13 @@ function TradeTable() {
               >
 
 
+
                 <td className="py-4 text-gray-300">
 
                   {trade.date}
 
                 </td>
+
 
 
 
@@ -263,11 +317,17 @@ function TradeTable() {
                   <span
 
                     className={
+
                       trade.type === "Buy"
+
                       ?
+
                       "bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm"
+
                       :
+
                       "bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm"
+
                     }
 
                   >
@@ -283,23 +343,34 @@ function TradeTable() {
 
 
 
+
+
                 <td>
 
 
                   <span
 
                     className={
+
                       trade.pnl >= 0
+
                       ?
+
                       "bg-green-500/20 text-green-400 px-3 py-1 rounded-full"
+
                       :
+
                       "bg-red-500/20 text-red-400 px-3 py-1 rounded-full"
+
                     }
 
                   >
 
+
                     {trade.pnl >= 0 ? "+" : ""}
+
                     ${trade.pnl}
+
 
                   </span>
 
@@ -311,7 +382,9 @@ function TradeTable() {
               </tr>
 
 
+
             ))
+
           }
 
 
