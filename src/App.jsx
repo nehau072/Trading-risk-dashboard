@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import Header from "./components/common/Header";
 import SummaryCard from "./components/common/SummaryCard";
 import StatusBadge from "./components/common/StatusBadge";
@@ -7,9 +9,11 @@ import EquityChart from "./components/dashboard/EquityChart";
 import TradeTable from "./components/dashboard/TradeTable";
 import PerformanceAnalytics from "./components/dashboard/PerformanceAnalytics";
 import RiskAlert from "./components/dashboard/RiskAlert";
+import AddTrade from "./components/dashboard/AddTrade";
 
 import account from "./data/account";
-import trades from "./data/trades";
+
+import { TradeContext } from "./context/TradeContext";
 
 import {
   getCurrentBalance,
@@ -24,10 +28,15 @@ import {
 function App() {
 
 
+  const { trades } = useContext(TradeContext);
+
+
+
   const currentBalance = getCurrentBalance(
     account.startingBalance,
     trades
   );
+
 
 
   const currentDrawdown = getCurrentDrawdown(
@@ -36,13 +45,16 @@ function App() {
   );
 
 
+
   const remainingDrawdown = getRemainingDrawdown(
     account.maxDrawdown,
     currentDrawdown
   );
 
 
+
   const today = "2026-08-03";
+
 
 
   const dailyLoss = getDailyLoss(
@@ -51,10 +63,12 @@ function App() {
   );
 
 
+
   const remainingDailyLoss = getRemainingDailyLoss(
     account.dailyLossLimit,
     dailyLoss
   );
+
 
 
   const riskStatus = getRiskStatus(
@@ -78,6 +92,7 @@ function App() {
 
 
       <Header />
+
 
 
 
@@ -125,7 +140,23 @@ function App() {
 
 
 
+      {/* Add Trade */}
+
+      <div className="animate-fadeIn">
+
+        <AddTrade />
+
+      </div>
+
+
+
+
+
+
+
       {/* Risk Status */}
+
+
 
       <div
         className="
@@ -142,11 +173,13 @@ function App() {
       >
 
 
+
         <h2 className="text-2xl font-bold text-white">
 
           Risk Status
 
         </h2>
+
 
 
 
@@ -163,7 +196,9 @@ function App() {
         <div className="mt-8 space-y-8">
 
 
+
           {/* Current Drawdown */}
+
 
           <div>
 
@@ -218,7 +253,10 @@ function App() {
 
 
 
+
           {/* Daily Loss */}
+
+
 
           <div>
 
@@ -280,7 +318,9 @@ function App() {
 
 
 
+
       {/* Risk Alert */}
+
 
       <div className="animate-fadeIn">
 
@@ -292,7 +332,10 @@ function App() {
 
 
 
+
+
       {/* Performance Analytics */}
+
 
       <div className="animate-fadeIn">
 
@@ -304,7 +347,10 @@ function App() {
 
 
 
+
+
       {/* Equity Chart */}
+
 
       <div className="animate-fadeIn">
 
@@ -316,13 +362,17 @@ function App() {
 
 
 
+
+
       {/* Trade Table */}
+
 
       <div className="animate-fadeIn">
 
         <TradeTable />
 
       </div>
+
 
 
 

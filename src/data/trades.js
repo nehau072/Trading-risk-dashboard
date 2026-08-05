@@ -1,5 +1,4 @@
-
-const trades = [
+const initialTrades = [
   {
     id: 1,
     date: "2026-08-01",
@@ -44,4 +43,5 @@ const trades = [
   },
 ];
 
-export default trades;
+
+export default initialTrades;
